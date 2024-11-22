@@ -64,5 +64,6 @@ jobs:
               ghcr.io/fiardiel/budidayaplus_be:latest
 
             docker exec budidayaplus_be_staging python manage.py migrate
+            docker exec budidayaplus_be_staging python manage.py csv_to_json tasks/fixtures/data.csv tasks/fixtures/data.json 
             docker exec budidayaplus_be_staging python manage.py loaddata data.json
 
