@@ -8,7 +8,6 @@ from tasks.enums import TaskStatus
 @receiver(post_save, sender=Cycle)
 def create_tasks(sender, instance, created, **kwargs):
     if created:
-        counter = 0
 
         cycle = instance
         start_date = cycle.start_date
@@ -16,7 +15,6 @@ def create_tasks(sender, instance, created, **kwargs):
         task_templates = TaskTemplate.objects.all()
 
         for template in task_templates:
-            counter += 1
             task_date = start_date + timedelta(days=template.day_of_culture - 1)
             Task.objects.create(
                 task_type=template.task_type,
