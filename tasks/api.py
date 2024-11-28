@@ -14,8 +14,8 @@ def list_tasks(request):
         cycle = CycleService.get_active_cycle(request.auth)
         tasks = ListServiceImpl.list_tasks(cycle.id)
         return tasks
-    except:
-        raise HttpError(400, "Data tidak ditemukan")
+    except ValueError as e:
+        raise HttpError(400, str(e))
 
 
 @router.get("/sorted", response={200: SortedTaskSchema})
@@ -24,5 +24,5 @@ def list_tasks_sorted(request):
         cycle = CycleService.get_active_cycle(request.auth)
         tasks = ListServiceImpl.list_tasks_sorted_date(cycle.id)
         return tasks
-    except:
-        raise HttpError(400, "Data tidak ditemukan")
+    except ValueError as e:
+        raise HttpError(400, str(e))

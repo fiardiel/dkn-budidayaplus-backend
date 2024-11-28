@@ -85,7 +85,7 @@ class TaskAPITest(TestCase):
     def test_list_tasks_api_not_found_cycle(self):
         with patch('cycle.services.cycle_service.CycleService.get_active_cycle') as mock_get_active_cycle:
 
-            mock_get_active_cycle.return_value = None
+            mock_get_active_cycle.side_effect = ValueError("Siklus tidak ditemukan")
             
             with self.assertRaises(HttpError):
                 list_tasks(self.request)
@@ -111,7 +111,7 @@ class TaskAPITest(TestCase):
     def test_lists_tasks_api_sorted_no_cycle(self):
         with patch('cycle.services.cycle_service.CycleService.get_active_cycle') as mock_get_active_cycle:
 
-            mock_get_active_cycle.return_value = None
+            mock_get_active_cycle.side_effect = ValueError("Siklus tidak ditemukan")
             
             with self.assertRaises(HttpError):
                 list_tasks_sorted(self.request)
