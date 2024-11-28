@@ -7,6 +7,7 @@ from cycle.repositories.pond_fish_amount_repo import PondFishAmountRepo
 from cycle.schemas import CycleInput
 from cycle.models import Cycle
 
+CYCLE_NOT_FOUND = "Siklus tidak ditemukan"
 
 class CycleService:
     @staticmethod
@@ -30,14 +31,14 @@ class CycleService:
     def get_active_cycle(supervisor: User):
         cycle = CycleRepo.get_active_cycle(supervisor)
         if cycle is None:
-            raise ValueError("Siklus tidak ditemukan")
+            raise ValueError(CYCLE_NOT_FOUND)
         return cycle
 
     @staticmethod
     def get_cycle_by_id(id: str):
         cycle = CycleRepo.get_cycle_by_id(id)
         if cycle is None:
-            raise ValueError("Siklus tidak ditemukan")
+            raise ValueError(CYCLE_NOT_FOUND)
         return cycle
 
     @staticmethod
@@ -57,6 +58,6 @@ class CycleService:
     def stop_cycle(cycle_id: str, supervisor: User):
         cycle = CycleRepo.get_cycle_by_id(cycle_id)
         if not cycle:
-            raise ValueError("Siklus tidak ditemukan")
+            raise ValueError(CYCLE_NOT_FOUND)
         CycleRepo.stop_cycle(cycle_id)
         return cycle
