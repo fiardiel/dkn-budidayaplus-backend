@@ -30,6 +30,7 @@ jobs:
 
       - name: Run tests and generate coverage
         run: |
+          source env/bin/activate
           coverage run manage.py test
           coverage xml
 
