@@ -14,6 +14,7 @@ from datetime import timedelta
 from pathlib import Path
 from django.conf import settings
 import os
+import sentry_sdk
 # from dotenv import load_dotenv 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-39uz4hca1(q05vo*4nfzkz&3-vg#4+x4%-495^6wkq!onyjl8j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '103.177.95.189', 
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'ninja_extra',
     'corsheaders',
     'tasks',
+    'silk',
 ]
 
 NINJA_JWT = {
@@ -115,6 +117,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
+    'silk.middleware.SilkyMiddleware',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -218,3 +223,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+sentry_sdk.init(
+    dsn="https://aa06536aae9adc586ad760ee11dbfc99@o4508339537313792.ingest.us.sentry.io/4508379370946565",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for tracing.
+    traces_sample_rate=1.0,
+    _experiments={
+        # Set continuous_profiling_auto_start to True
+        # to automatically start the profiler on when
+        # possible.
+        "continuous_profiling_auto_start": True,
+    },
+)
