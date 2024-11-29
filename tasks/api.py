@@ -10,9 +10,12 @@ router = Router(auth=JWTAuth())
 
 @router.get("/", response={200: List[TaskSchema]})
 def list_tasks(request):
-    cycle = CycleService.get_active_cycle(request.auth)
-    tasks = ListServiceImpl.list_tasks(cycle.id)
-    return tasks
+    try:
+        cycle = CycleService.get_active_cycle(request.auth)
+        tasks = ListServiceImpl.list_tasks(cycle.id)
+        return tasks
+    except ValueError as e:
+        raise HttpError(400, str(e))
 
 
 @router.get("/sorted", response={200: SortedTaskSchema})
