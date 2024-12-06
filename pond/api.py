@@ -5,6 +5,7 @@ from .models import Pond
 from .schemas import PondSchema, PondOutputSchema
 from ninja_jwt.authentication import JWTAuth
 from typing import List
+from user_profile.utils import get_supervisor
 
 router = Router()
 
@@ -21,7 +22,7 @@ def get_pond(request, pond_id: str):
 
 @router.get("/", auth=JWTAuth(), response={200: List[PondOutputSchema]})
 def list_ponds_by_user(request):
-    user = request.auth
+    user = get_supervisor(request.auth)
     ponds = PondService.list_ponds_by_user(user)
     return ponds
 
