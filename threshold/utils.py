@@ -4,9 +4,9 @@ from threshold.models import PondQualityThreshold
 from pond_quality.models import PondQuality
 
 DATA_NOT_FOUND = "Data tidak ditemukan"
-GREEN = "healthy"
-YELLOW = "moderate"
-RED = "unhealthy"
+GREEN = "Sehat"
+YELLOW = "Moderat"
+RED = "Tidak Sehat"
 
 def get_latest_pond_quality(user, pond, cycle):
     try:
