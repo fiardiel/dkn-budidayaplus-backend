@@ -4,6 +4,9 @@ from tasks.models import Task, TaskTemplate
 from datetime import timedelta
 from tasks.enums import TaskStatus
 from cycle.signals import create_cycle_signal
+from django.db.models.signals import post_migrate
+from django.core.management import call_command
+from django.dispatch import receiver
 
 @receiver(create_cycle_signal, sender=CycleService)
 def create_tasks(sender, instance, created, **kwargs):
@@ -27,3 +30,7 @@ def create_tasks(sender, instance, created, **kwargs):
                 )
 
 
+@receiver(post_migrate)
+def load_fixtures(sender, **kwargs):
+    if sender.name == 'tasks':
+        call_command('loaddata', 'tasks/fixtures/data.json')
