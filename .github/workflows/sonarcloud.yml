@@ -1,0 +1,41 @@
+name: Build
+on:
+  push:
+    branches:
+       '**'
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarcloud:
+    name: SonarQube Cloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies and migrate
+        run: |
+          python -m venv env
+          source env/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python manage.py migrate
+
+      - name: Run tests and generate coverage
+        run: |
+          source env/bin/activate
+          coverage run manage.py test
+          coverage xml
+
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
