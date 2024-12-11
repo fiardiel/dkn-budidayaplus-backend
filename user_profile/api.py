@@ -6,9 +6,11 @@ from user_profile.services.get_team_service_impl import GetTeamServiceImpl
 from user_profile.services.retrieve_service_impl import RetrieveServiceImpl
 from user_profile.services.update_service_impl import UpdateServiceImpl
 from ninja_jwt.authentication import JWTAuth
-from user_profile.models import UserProfile
+from user_profile.models import UserProfile, Worker
 from ninja.errors import HttpError
 from user_profile.schemas import CreateWorkerSchema, ProfileSchema, UpdateProfileSchema
+from silk.profiling.profiler import silk_profile
+
 
 router = Router(auth=JWTAuth())
 
@@ -32,8 +34,8 @@ def update_profile(request, payload_profile: UpdateProfileSchema):
 def get_profile(request, username: str):
     return handle_exceptions(RetrieveServiceImpl.retrieve_profile, username)
 
-
 @router.get("/team", response=List[ProfileSchema])
+@silk_profile(name='Get Team Profile')
 def get_team(request):
     return handle_exceptions(GetTeamServiceImpl.get_team, request.auth)
 
