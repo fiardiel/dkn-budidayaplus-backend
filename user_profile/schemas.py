@@ -1,5 +1,6 @@
+from operator import contains
 from ninja import Schema, Field
-from pydantic import UUID4
+from pydantic import UUID4, field_validator
 from typing import Optional
 
 class ProfileInputSchema(Schema):
@@ -33,3 +34,13 @@ class CreateWorkerSchema(Schema):
     first_name: str
     last_name: str
     password: str
+
+    @field_validator('password')
+    @classmethod
+    def validate_password(cls, v: str):
+        return v
+
+    @field_validator('phone_number')
+    @classmethod
+    def validate_phone_number(cls, v: str):
+        return v
