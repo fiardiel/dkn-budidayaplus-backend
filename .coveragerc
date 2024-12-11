@@ -1,8 +1,8 @@
 [run]
-source =  .
+source = user_profile
 omit =
     */tests/*
-    budidayaplus/urls.py  # Replace project_name with your actual project folder
+    budidayaplus/urls.py
     manage.py
     */migrations/*
     */admin.py
@@ -12,6 +12,14 @@ omit =
     */settings.py
     */__init__.py
     */tests.py
+    */threshold/*
+    */pond/*
+    */pond_quality/*
+    */fish_sampling/*
+    */food_sampling/*
+    */tasks/*
+    */cycle/*
+    */threshold/*
 
 [report]
 omit =
@@ -26,3 +34,10 @@ omit =
     */settings.py
     */__init__.py
     */tests.py
+    */pond/*
+    */pond_quality/*
+    */fish_sampling/*
+    */food_sampling/*
+    */tasks/*
+    */cycle/*
+    */threshold/*

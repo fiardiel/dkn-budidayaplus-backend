@@ -28,11 +28,11 @@ jobs:
           pip install -r requirements.txt
           python manage.py migrate
 
-      # - name: Run tests and generate coverage
-      #   run: |
-      #     source env/bin/activate
-      #     coverage run manage.py test
-      #     coverage xml
+      - name: Run tests and generate coverage
+        run: |
+          source env/bin/activate
+          coverage run manage.py test user_profile
+          coverage xml
 
       - name: SonarQube Cloud Scan
         uses: SonarSource/sonarcloud-github-action@master
