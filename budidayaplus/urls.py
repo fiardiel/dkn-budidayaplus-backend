@@ -24,3 +24,5 @@ urlpatterns = [
     path('api/', api.urls),
     path('', include('django_prometheus.urls')),
 ]
+
+urlpatterns += [ path('silk/', include('silk.urls', namespace='silk')) ]
