@@ -49,4 +49,12 @@ class CreateWorkerSchema(Schema):
     @field_validator('phone_number')
     @classmethod
     def validate_phone_number(cls, v: str):
+        if not v.isdigit():
+            raise ValueError('Nomor telefon harus berupa angka')
+        if not v.startswith('08'):
+            raise ValueError('Nomor telefon harus dimulai dengan 08')
+        if len(v) < 10:
+            raise ValueError('Nomor telefon harus minimal 10 digit')
+        if len(v) > 13:
+            raise ValueError('Nomor telefon anda maksimal 13 digit')
         return v
