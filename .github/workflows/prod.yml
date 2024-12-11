@@ -42,7 +42,7 @@ jobs:
       - name: Build and push Docker image
         run: |
           IMAGE_NAME=ghcr.io/${{ secrets.GHCR_USERNAME }}/budidayaplus_be:stable
-          docker build -t $IMAGE_NAME
+          docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
 
   deploy:
