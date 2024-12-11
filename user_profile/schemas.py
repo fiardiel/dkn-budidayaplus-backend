@@ -38,6 +38,12 @@ class CreateWorkerSchema(Schema):
     @field_validator('password')
     @classmethod
     def validate_password(cls, v: str):
+        if len(v) < 8:
+            raise ValueError('Password harus minimal 8 karakter')
+        if not any(c.isdigit() for c in v):
+            raise ValueError('Password harus mengandung angka')
+        if not any(c.isalpha() for c in v):
+            raise ValueError('Password harus mengandung huruf')
         return v
 
     @field_validator('phone_number')
