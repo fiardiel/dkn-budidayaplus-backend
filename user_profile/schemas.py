@@ -1,4 +1,3 @@
-from operator import contains
 from ninja import Schema, Field
 from pydantic import UUID4, field_validator
 from typing import Optional
