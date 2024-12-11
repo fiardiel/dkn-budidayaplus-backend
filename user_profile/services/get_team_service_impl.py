@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from user_profile.models import UserProfile
+from user_profile.models import UserProfile, Worker
 from user_profile.services.get_team_service import GetTeamService
 
 class GetTeamServiceImpl(GetTeamService):
@@ -10,11 +10,20 @@ class GetTeamServiceImpl(GetTeamService):
         ).prefetch_related('workers').get(user=user)
 
         if hasattr(user_profile, 'worker'):
-            supervisor = user_profile.worker.assigned_supervisor
+            return GetTeamServiceImpl._get_worker_team(user_profile.worker)
+
+        return GetTeamServiceImpl._get_supervisor_team(user_profile)
+
+    @staticmethod
+    def _get_worker_team(worker):
+        supervisor = worker.assigned_supervisor
+        if supervisor:
             return [supervisor] + list(supervisor.workers.all())
+        return []
 
-        return [user_profile] + list(user_profile.workers.all())
-
+    @staticmethod
+    def _get_supervisor_team(supervisor):
+        return [supervisor] + list(supervisor.workers.all())
 
     @staticmethod
     def get_team_by_username(username):
